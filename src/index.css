@@ -81,7 +81,7 @@ p {
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   margin-block-start: 18px;
-  max-width: 100%;
+  width: 100%;
   margin-inline: auto;
 }
 
@@ -114,7 +114,7 @@ p {
 
 
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
 
   header button,
   header input {
@@ -127,6 +127,6 @@ p {
   }
 
   .todoItem {
-    width: 53.5%;
+    max-width: 800px;
   }
 }
