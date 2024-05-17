@@ -1,33 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import TodoInput from "./TodoInput"
+import TodoList from "./TodoList"
+import { useState, useEffect } from "react"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [todos, setTodos] = useState([])
+  const [todoText, setTodoText] = useState("")
+
+  const persistTodos = (newTodos) => {
+    localStorage.setItem("todos", JSON.stringify(newTodos))
+    setTodos(newTodos)
+  }
+
+  const addTodo = (todoText) => {
+    if (todoText === "") return
+
+    const newTodo = {
+      id: todos[todos.length - 1]?.id + 1 || 0,
+      text: todoText
+    }
+    persistTodos([...todos, newTodo])
+    setTodos([...todos, newTodo])
+  }
+
+  const handelDelete = (id) => {
+    const newTodos = todos.filter(todo => todo.id !== id)
+    persistTodos(newTodos)
+    setTodos(newTodos)
+  }
+
+  const handleEdit = (id) => {
+    const newTodo = todos.find(todo => todo.id === id)
+    setTodoText(newTodo.text)
+    handelDelete(id)
+  }
+
+  useEffect(() => {
+    if (!localStorage) {
+      return
+    }
+
+    let data = localStorage.getItem("todos")
+
+    if (!data) {
+      return
+    }
+
+    data = setTodos(JSON.parse(data))
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main>
+        <TodoInput addTodo={addTodo} todoValue={todoText} setTodoText={setTodoText} />
+        <TodoList todos={todos} handelDelete={handelDelete} handleEdit={handleEdit} />
+      </main>
     </>
   )
 }

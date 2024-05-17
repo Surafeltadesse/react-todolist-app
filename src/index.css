@@ -81,7 +81,7 @@ p {
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   margin-block-start: 18px;
-  max-width: 52.5%;
+  max-width: 100%;
   margin-inline: auto;
 }
 
@@ -90,6 +90,7 @@ p {
   font-size: 1.5rem;
   margin-inline-start: 18px;
   font-family: monospace, sans-serif;
+  text-transform: uppercase;
 }
 
 .actionsContainer {
@@ -126,6 +127,6 @@ p {
   }
 
   .todoItem {
-    max-width: 100%;
+    width: 65%;
   }
 }
